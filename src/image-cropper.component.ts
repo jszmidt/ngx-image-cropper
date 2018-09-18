@@ -91,6 +91,7 @@ export class ImageCropperComponent implements OnChanges {
     @Output() imageCropped = new EventEmitter<CroppedData>();
     @Output() imageLoaded = new EventEmitter<void>();
     @Output() loadImageFailed = new EventEmitter<void>();
+    @Input() isBase64Input: boolean = false;
 
     constructor(private elementRef: ElementRef, private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {
         this.initCropper();
@@ -211,7 +212,7 @@ export class ImageCropperComponent implements OnChanges {
 
     private resetCropperPosition() {
         const displayedImage = this.elementRef.nativeElement.querySelector('.source-image');
-        if (this.cropper.x1 === -100) {
+        if (!this.isBase64Input) {
             if (displayedImage.offsetWidth / this.aspectRatio < displayedImage.offsetHeight) {
                 this.cropper.x1 = 0;
                 this.cropper.x2 = displayedImage.offsetWidth;
